@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<!--fd-->
+<h3> Create new item </h3>
+<div>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+
+{% endblock %}

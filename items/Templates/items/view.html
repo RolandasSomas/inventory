@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3> {{ item.title}} </h3>
+<div>
+    <b>Quantity:</b> {{ item.quantity }} {{ item.get_quantity_type_value }}
+</div>
+<div class="mt-2">
+    {% if item.created_by == user.id or perms.items.change_item %}
+    <a class="btn btn-primary" href="{% url 'items:edit_item' item.id %}" role="button">Edit</a>
+    {% endif %}
+    {% if item.created_by == user.id or perms.items.delete_item %}
+    <a class="btn btn-danger" href="{% url 'items:delete_item' item.id %}" role="button">Delete</a>
+    {% endif %}
+    <a class="btn btn-cancel" href="{% url 'items:list_items' %}" role="button">Back</a>
+</div>
+
+{% endblock %}
