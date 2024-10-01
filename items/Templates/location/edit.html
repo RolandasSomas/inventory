@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3> Update item: {{ item_type.title }} </h3>
+<h3> Update location: {{ location.name }} </h3>
 <div>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-primary" type="submit">Update</button>
-        <a class="btn btn-cancel" href="{% url 'items:view_item' item.id %}" role= "button">Cancel</a>
+        <a class="btn btn-cancel" href="{% url 'items:view_location' location.id %}" role= "button">Cancel</a>
     </form>
 </div>
 

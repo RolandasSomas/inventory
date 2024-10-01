@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button class="btn btn-primary" type="submit">Update</button>
-        <a class="btn btn-cancel" href="{% url 'items:view_item' item.id %}" role= "button">Cancel</a>
+        <a class="btn btn-cancel" href="{% url 'items:view_item_type' item_type.id %}" role= "button">Cancel</a>
     </form>
 </div>
 

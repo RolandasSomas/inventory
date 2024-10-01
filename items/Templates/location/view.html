@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3> {{ location.name}} </h3>
+<div>
+    <b>Address:</b> {{ location.address }}
+</div>
+<div class="mt-2">
+    <a class="btn btn-primary" href="{% url 'items:edit_location' location.id %}" role="button">Edit</a>
+    <a class="btn btn-danger" href="{% url 'items:delete_location' location.id %}" role="button">Delete</a>
+    <a class="btn btn-cancel" href="{% url 'items:list_locations' %}" role="button">Back</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3> {{ item_type.title}} </h3>
+<div class="mt-2">
+    <a class="btn btn-primary" href="{% url 'items:edit_item_type' item_type.id %}" role="button">Edit</a>
+    <a class="btn btn-danger" href="{% url 'items:delete_item_type' item_type.id %}" role="button">Delete</a>
+    <a class="btn btn-cancel" href="{% url 'items:list_item_types' %}" role="button">Back</a>
+</div>
+
+{% endblock %}

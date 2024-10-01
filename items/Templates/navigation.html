@@ -6,7 +6,16 @@
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'items:list_items' %}">Items</a>
+                    <a class="nav-link" href="{% url 'items:list_items' %}">Stocks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'items:list_locations' %}">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'items:list_categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'items:list_item_types' %}">Items</a>
                 </li>
                 {% endif %}
 

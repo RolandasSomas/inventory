@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h3> Location </h3>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'items:create_location' %}" role="button"> Add location</a>
+    </div>
+</div>
+<form method="get" class="pb-2">
+    {{ filter_form.as_p }}
+    <button type="submit" class="btn btn-primary">Filter</button>
+      <a class="btn btn-secondary" href="{% url 'items:list_locations' %}" role="button"> Reset</a>
+</form>
+<table class="table table-dark table-striped">
+
+    <thead>
+    <tr>
+        <th scope="col">No</th>
+        <th scope="col">Name</th>
+        <th scope="col">Address</th>
+    </tr>
+    </thead>
+    {% for location in locations %}
+    <tbody>
+    <tr>
+        <th scope="row"> {{page_obj.start_index | add:forloop.counter0}}</th>
+        <td><p><a class="link-opacity-100" href="{% url 'items:view_location' location.id %}">{{ location.name }}</a></p></td>
+        <td>{{location.address}}</td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+    {% include 'pagination.html' %}
+{% endblock %}

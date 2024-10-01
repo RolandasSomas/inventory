@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between">
+    <div>
+        <h3> Items</h3>
+    </div>
+    <div>
+        <a class="btn btn-primary" href="{% url 'items:create_item_type' %}" role="button"> Add item</a>
+    </div>
+</div>
+
+<form method="get" class="pb-2">
+    {{ filter_form.as_p }}
+    <button type="submit" class="btn btn-primary">Filter</button>
+     <a class="btn btn-secondary" href="{% url 'items:list_item_types' %}" role="button"> Reset</a>
+</form>
+
+<table class="table table-dark table-striped">
+
+    <thead>
+    <tr>
+        <th scope="col">No</th>
+        <th scope="col">Serial Number</th>
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+    </tr>
+    </thead>
+    {% for item_type in item_types %}
+    <tbody>
+    <tr>
+        <th scope="row"> {{page_obj.start_index | add:forloop.counter0}}</th>
+        <td><p>{{item_type.id_number}}</p></td>
+        <td><p><a href="{% url 'items:view_item_type' item_type.id%}">{{item_type.title}}</a></p></td>
+        <td><p><a href="{% url 'items:view_category' item_type.category.id%}">{{item_type.category}}</a></p></td>
+    </tr>
+    </tbody>
+    {% endfor %}
+</table>
+    {% include 'pagination.html' %}
+{% endblock %}
