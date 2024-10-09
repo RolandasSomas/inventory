@@ -6,8 +6,8 @@
     {% csrf_token %}
     <div>Ar tikrai norite ištrinti objektą?</div>
     <div class="form-group">
-        <button class="btn btn-danger" type="submit">Taip, ištrinti</button>
-        <a class="btn btn-cancel" href="{% url 'items:view_location' location.id %}" role="button">Atšaukti</a>
+        <button class="btn btn-danger" type="submit">Yes, delete</button>
+        <a class="btn btn-cancel" href="{% url 'items:view_location' location.id %}" role="button">Cancel</a>
 
     </div>
 </form>

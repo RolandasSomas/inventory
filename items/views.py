@@ -1,5 +1,6 @@
 from contextlib import nullcontext
 
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -8,7 +9,7 @@ from django.views import generic
 
 from .forms import ItemForm, ItemForm, LocationForm, CategoryForm, ItemsForm
 from .models import Item, Location, ItemAction, ItemCategory, ItemType
-
+from django.core.exceptions import ObjectDoesNotExist
 
 def home(request):
     return render(request, 'home.html')
@@ -32,6 +33,9 @@ class ItemsListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         form = ItemForm(self.request.GET)
+
+        # del 0 objektu stock lenteleje nerodymo
+        # queryset = Item.objects.exclude(quantity=0)
         if form.is_valid():
             name = form.cleaned_data.get('name')
             location = form.cleaned_data.get('location')
@@ -225,7 +229,7 @@ class ItemActionMoveCreateView(ItemActionCreateView):
             try:
                 new_item = Item.objects.get(location=move_to, item_type=item.item_type)
                 new_item.quantity += form.instance.amount
-            except Item.objects.DoesNotExist:
+            except ObjectDoesNotExist:
                 new_item = item
                 new_item.id = None
                 new_item.location = move_to
@@ -327,6 +331,12 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delete
     success_url = '/categories'
     template_name = 'category/delete.html'
 
+    def form_valid(self, form):
+        parent = self.get_object()
+        if parent.category.exists():
+            messages.error(self.request, "Cannot be deleted, because you have related data on it.")
+            return self.form_invalid(form)
+        return super().form_valid(form)
     def test_func(self):
         return True
 
@@ -375,7 +385,7 @@ class ItemTypeCreateView(LoginRequiredMixin, generic.CreateView):
         if item_code:
             try:
                 item_type = ItemType.objects.get(id_number=item_code)
-            except ItemType.DoesNotExist:
+            except ObjectDoesNotExist:
                 item_type = None
             if item_type:
                 form.add_error('id_number', "Item code already exists")
@@ -395,7 +405,7 @@ class ItemTypeEditView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
         if item_code:
             try:
                 item_type = ItemType.objects.get(id_number=item_code)
-            except ItemType.objects.DoesNotExist:
+            except ObjectDoesNotExist:
                 item_type = None
             if item_type and item_type.id != form.instance.id:
                 form.add_error('id_number', "Item code already exists")
@@ -412,6 +422,13 @@ class ItemTypeDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delete
 
     success_url = '/item_types'
     template_name = 'item_type/delete.html'
+
+    def form_valid(self, form):
+        parent = self.get_object()
+        if parent.item_name.exists():
+            messages.error(self.request, "Cannot be deleted, because you have related data on it.")
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         return True

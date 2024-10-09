@@ -6,6 +6,12 @@
 
     <b>Quantity:</b>{{ item.quantity }} {{ item.item_type.get_quantity_type_value }}
 </div>
+<div>
+    <b> Location:</b> {{ item.location }}
+</div>
+<div>
+    <b> Arrived from:</b> {{ item.from_location }}
+</div>
 <div class="mt-2">
     <div>
         Change quantity:

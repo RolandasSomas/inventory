@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,19 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: beige">
+
     <header>
         {% include 'navigation.html' %}
     </header>
     <main class="container pt-2">
+        {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
         {% block content %}{% endblock %}
     </main>
     <footer>

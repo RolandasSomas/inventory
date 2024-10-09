@@ -51,10 +51,10 @@ class ItemType(BaseModel):
 class Item(BaseModel):
 
     quantity = models.FloatField()
-    item_type = models.ForeignKey(ItemType, on_delete=models.DO_NOTHING, related_name='item_name', null=True, verbose_name='Item name')
+    item_type = models.ForeignKey(ItemType, on_delete=models.PROTECT, related_name='item_name', null=True, verbose_name='Item name')
     created_on = models.DateTimeField(default=django.utils.timezone.now, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='items')
-    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING, related_name='location', null=True, blank=True)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name='location', null=True, blank=True)
     from_location = models.CharField(max_length=128, default="", verbose_name="Arrived from")
 
     def total_price(self):
@@ -75,7 +75,7 @@ class ItemAction(BaseModel):
     amount = models.FloatField()
     from_location = models.CharField(max_length=128, default="")
     action = models.CharField(max_length=50, choices=ACTION, default='1')
-    move_to = models.ForeignKey(Location, on_delete=models.DO_NOTHING, related_name='move_to', blank=True, null=True)
+    move_to = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name='move_to', blank=True, null=True)
     created_by = models.ForeignKey(User, default=1, on_delete=models.DO_NOTHING, related_name='created_by')
     reason = models.TextField(max_length=1024, default="")
 
